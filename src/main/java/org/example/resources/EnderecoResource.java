@@ -1,39 +1,38 @@
 package org.example.resources;
 
+import org.example.entities.Endereco;
 import org.example.entities.Fornecedor;
-import org.example.entities.Produto;
-import org.example.services.FornecedorService;
+import org.example.services.EnderecoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/fornecedor")
-public class FornecedorResource {
+@RequestMapping(value = "/endereco")
+public class EnderecoResource {
 
     @Autowired
-    private FornecedorService service;
+    private EnderecoService service;
 
     @GetMapping
-    public ResponseEntity<List<Fornecedor>> findAll() {
+    public ResponseEntity<List<Endereco>> findAll() {
 
-        List<Fornecedor> fornecedor = service.findAll();
-        return ResponseEntity.ok(fornecedor);
+        List<Endereco> endereco = service.findAll();
+        return ResponseEntity.ok(endereco);
     }
 
     @GetMapping("/{id}")
-    public Fornecedor findById(@PathVariable Long id) {
+    public Endereco findById(@PathVariable Long id) {
         return service.findById(id);
     }
 
     @PostMapping
-    public ResponseEntity<Fornecedor> insert(@RequestBody Fornecedor fornecedor) {
+    public ResponseEntity<Endereco> insert(@RequestBody Endereco endereco) {
 
-        Fornecedor created = service.insert(fornecedor);
+        Endereco created = service.insert(endereco);
         return  ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
@@ -46,9 +45,9 @@ public class FornecedorResource {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id,
-                                    @RequestBody Fornecedor fornecedor) {
+                                    @RequestBody Endereco endereco) {
 
-        if (service.update(id, fornecedor)) {
+        if (service.update(id, endereco)) {
 
             return ResponseEntity.ok().build();
 

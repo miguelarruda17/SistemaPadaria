@@ -1,7 +1,11 @@
 package org.example.services;
 
 import org.example.entities.Cliente;
+import org.example.entities.Contato;
+import org.example.entities.Endereco;
+import org.example.entities.Produto;
 import org.example.repositories.ClienteRepository;
+import org.example.services.exeptions.ObjectNotFoundException;
 import org.example.services.exeptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,19 +19,30 @@ public class ClienteService {
     @Autowired
     private ClienteRepository repository;
 
+    @Autowired
+    private EnderecoService enderecoService;
+
     public List<Cliente> findAll(){
 
         return repository.findAll();
     }
 
-    public Cliente findById(Long id){
+    public Cliente findById(Long id) {
+
         Optional<Cliente> obj = repository.findById(id);
-        return obj.orElseThrow(() -> new ResourceNotFoundException(id));
+        return obj.orElseThrow(() -> new ObjectNotFoundException(
+                "Objeto não encontrado! Id: " + id +
+                        ", Tipo: " + Produto.class.getName()));
+
     }
 
-    public  Cliente insert(Cliente cliente) {
+    public Cliente insert(Cliente obj) {
 
-        return repository.save(cliente);
+        obj.setIdCliente(null);
+        obj.setEndereco(enderecoService.findById(obj.getEndereco().getIdEndereco()));
+        obj = repository.save(obj);
+        return obj;
+
     }
 
     public void delete(Long id) {

@@ -24,16 +24,21 @@ public class Cliente implements Serializable {
     @Column(name = "STATUS", nullable = false)
     private String statusCliente;
 
+    @ManyToOne
+    @JoinColumn(name = "ENDERECO", nullable = false)
+    private Endereco endereco;
+
 
     public Cliente() {  }//Construtor vazio.
 
     //Construtor com argumentos(Construtor de inicialização de atributos do java).
-    public Cliente(Long idCliente, String nome, String cpfCliente, String dataNascimento, String statusCliente) {
+    public Cliente(Long idCliente, String nome, String cpfCliente, String dataNascimento, String statusCliente,Endereco endereco) {
         this.idCliente = idCliente;
         this.nome = nome;
         this.cpfCliente = cpfCliente;
         this.dataNascimento = dataNascimento;
         this.statusCliente = statusCliente;
+        this.endereco = endereco;
     }
 
 
@@ -77,4 +82,9 @@ public class Cliente implements Serializable {
     public void setStatusCliente(String statusCliente) {
         this.statusCliente = statusCliente;
     }
+
+    public Endereco getEndereco() { return endereco; }
+
+    public void setEndereco(Endereco endereco) { this.endereco = endereco; }
+
 }
