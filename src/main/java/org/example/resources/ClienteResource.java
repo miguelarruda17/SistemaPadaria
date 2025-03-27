@@ -25,10 +25,8 @@ import java.util.Optional;
         }
 
         @GetMapping("/{id}")
-        public ResponseEntity<Cliente> findById(@PathVariable Long id) {
-
-            Optional<Cliente> cliente = service.findById(id);
-            return cliente.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        public Cliente findById(@PathVariable Long id) {
+            return service.findById(id);
         }
 
         @PostMapping
@@ -58,4 +56,5 @@ import java.util.Optional;
                 return ResponseEntity.notFound().build();
             }
         }
+
 }

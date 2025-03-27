@@ -2,6 +2,7 @@ package org.example.services;
 
 import org.example.entities.Cliente;
 import org.example.repositories.ClienteRepository;
+import org.example.services.exeptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +20,9 @@ public class ClienteService {
         return repository.findAll();
     }
 
-    public Optional<Cliente> findById(Long id){
-
-        return repository.findById(id);
-
+    public Cliente findById(Long id){
+        Optional<Cliente> obj = repository.findById(id);
+        return obj.orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
     public  Cliente insert(Cliente cliente) {
