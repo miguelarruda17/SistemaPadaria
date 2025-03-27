@@ -2,6 +2,7 @@ package org.example.services;
 
 import org.example.entities.Fornecedor;
 import org.example.repositories.FornecedorRepository;
+import org.example.services.exeptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +19,9 @@ public class FornecedorService {
         return repository.findAll();
     }
 
-    public Optional<Fornecedor> findById(Long id){
-
-        return repository.findById(id);
+    public Fornecedor findById(Long id){
+        Optional<Fornecedor> obj = repository.findById(id);
+        return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 
     }
 

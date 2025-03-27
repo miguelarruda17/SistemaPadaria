@@ -2,6 +2,7 @@ package org.example.services;
 
 import org.example.entities.Produto;
 import org.example.repositories.ProdutoRepository;
+import org.example.services.exeptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,9 +20,12 @@ public class ProdutoService {
         return repository.findAll();
     }
 
-    public Optional<Produto> findById(Long id){
+    public Produto findById(Long id) {
 
-        return repository.findById(id);
+        Optional<Produto> obj = repository.findById(id);
+        return obj.orElseThrow(() -> new ObjectNotFoundException(
+                "Objeto não encontrado! Id: " + id +
+                        ", Tipo: " + Produto.class.getName()));
 
     }
 

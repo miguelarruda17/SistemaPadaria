@@ -23,16 +23,20 @@ public class Produto {
     @Column(name = "ESTOQUE")
     private Integer estoque;
 
+    @ManyToOne
+    @JoinColumn(name = "FORNECEDOR", nullable = false)
+    private Fornecedor fornecedor;
 
     public Produto() {  }
 
 
-    public Produto(Long idProduto, String descricao, Double precoCusto, Double precoVenda, Integer estoque) {
+    public Produto(Long idProduto, String descricao, Double precoCusto, Double precoVenda, Integer estoque, Fornecedor fornecedor) {
         this.idProduto = idProduto;
         this.descricao = descricao;
         this.precoCusto = precoCusto;
         this.precoVenda = precoVenda;
         this.estoque = estoque;
+        this.fornecedor = fornecedor;
     }
 
 
@@ -76,4 +80,11 @@ public class Produto {
         this.estoque = estoque;
     }
 
+    public Fornecedor getFornecedor() {
+        return fornecedor;
+    }
+
+    public void setFornecedor(Fornecedor fornecedor) {
+        this.fornecedor = fornecedor;
+    }
 }

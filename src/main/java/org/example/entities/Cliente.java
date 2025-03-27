@@ -10,7 +10,7 @@ public class Cliente implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) //Auto Increment.
     @Column(name = "ID", nullable = false)//nome no banco de dados.
-    private Long idFormaPag; // nome no java.
+    private Long idCliente; // nome no java.
 
     @Column(name = "NOME", nullable = false)
     private String nome;
@@ -28,8 +28,8 @@ public class Cliente implements Serializable {
     public Cliente() {  }//Construtor vazio.
 
     //Construtor com argumentos(Construtor de inicialização de atributos do java).
-    public Cliente(Long idFormaPag, String nome, String cpfCliente, String dataNascimento, String statusCliente) {
-        this.idFormaPag = idFormaPag;
+    public Cliente(Long idCliente, String nome, String cpfCliente, String dataNascimento, String statusCliente) {
+        this.idCliente = idCliente;
         this.nome = nome;
         this.cpfCliente = cpfCliente;
         this.dataNascimento = dataNascimento;
@@ -38,12 +38,12 @@ public class Cliente implements Serializable {
 
 
     //GETTERS E SETTERS.
-    public Long getIdFormaPag() {
-        return idFormaPag;
+    public Long getIdCliente() {
+        return idCliente;
     }
 
-    public void setIdFormaPag(Long idFormaPag) {
-        this.idFormaPag = idFormaPag;
+    public void setIdCliente(Long idCliente) {
+        this.idCliente = idCliente;
     }
 
     public String getNome() {

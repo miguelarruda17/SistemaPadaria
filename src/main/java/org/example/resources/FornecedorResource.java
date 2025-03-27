@@ -1,6 +1,7 @@
 package org.example.resources;
 
 import org.example.entities.Fornecedor;
+import org.example.entities.Produto;
 import org.example.services.FornecedorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,10 +26,8 @@ public class FornecedorResource {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Fornecedor> findById(@PathVariable Long id) {
-
-        Optional<Fornecedor> fornecedor = service.findById(id);
-        return fornecedor.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public Fornecedor findById(@PathVariable Long id) {
+        return service.findById(id);
     }
 
     @PostMapping
