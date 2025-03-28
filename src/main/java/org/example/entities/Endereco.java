@@ -1,5 +1,7 @@
 package org.example.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,6 +12,12 @@ public class Endereco {
     @GeneratedValue(strategy = GenerationType.IDENTITY) //Auto Increment.
     @Column(name = "ID")//nome no banco de dados.
     private Long idEndereco; // nome no java.
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "END_CLIENTE_ID")
+    private Cliente endCliente;
+
 
     @Column(name = "LOGRADOURO")
     private String logradouro;
@@ -37,8 +45,11 @@ public class Endereco {
 
 
     //Construtor com argumentos(Construtor de inicialização de atributos do java).
-    public Endereco(Long idEndereco, String logradouro, String numero, String complemento, String bairro, String cidade, String estado, String cep) {
+
+
+    public Endereco(Long idEndereco, Cliente endCliente, String logradouro, String numero, String complemento, String bairro, String cidade, String estado, String cep) {
         this.idEndereco = idEndereco;
+        this.endCliente = endCliente;
         this.logradouro = logradouro;
         this.numero = numero;
         this.complemento = complemento;
@@ -48,7 +59,6 @@ public class Endereco {
         this.cep = cep;
     }
 
-
     //GETTERS E SETTERS.
     public Long getIdEndereco() {
         return idEndereco;
@@ -56,6 +66,14 @@ public class Endereco {
 
     public void setIdEndereco(Long idEndereco) {
         this.idEndereco = idEndereco;
+    }
+
+    public Cliente getEndCliente() {
+        return endCliente;
+    }
+
+    public void setEndCliente(Cliente endCliente) {
+        this.endCliente = endCliente;
     }
 
     public String getLogradouro() {

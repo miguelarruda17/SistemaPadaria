@@ -1,5 +1,7 @@
 package org.example.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -12,6 +14,16 @@ public class Contato implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY) //Auto Increment.
     @Column(name = "ID_Contato")//nome no banco de dados.
     private Long idContato; // nome no java.
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "CON_FORN_ID")
+    private Fornecedor conFornecedor;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "CON_CLIENTE_ID")
+    private Cliente conCliente;
 
     @Column(name = "TELEFONE")
     private String telefone;
@@ -32,14 +44,16 @@ public class Contato implements Serializable {
 
     //Construtor com argumentos(Construtor de inicialização de atributos do java).
 
-
-    public Contato(Long idContato, String telefone, String celular, String email, Cliente cliente) {
+    public Contato(Long idContato, Fornecedor conFornecedor, Cliente conCliente, String telefone, String celular, String email, Cliente cliente) {
         this.idContato = idContato;
+        this.conFornecedor = conFornecedor;
+        this.conCliente = conCliente;
         this.telefone = telefone;
         this.celular = celular;
         this.email = email;
         this.cliente = cliente;
     }
+
 
     //GETTERS E SETTERS.
 
@@ -50,6 +64,22 @@ public class Contato implements Serializable {
 
     public void setIdContato(Long idContato) {
         this.idContato = idContato;
+    }
+
+    public Fornecedor getConFornecedor() {
+        return conFornecedor;
+    }
+
+    public void setConFornecedor(Fornecedor conFornecedor) {
+        this.conFornecedor = conFornecedor;
+    }
+
+    public Cliente getConCliente() {
+        return conCliente;
+    }
+
+    public void setConCliente(Cliente conCliente) {
+        this.conCliente = conCliente;
     }
 
     public String getTelefone() {

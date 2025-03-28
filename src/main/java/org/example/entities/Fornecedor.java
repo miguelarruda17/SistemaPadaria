@@ -1,6 +1,10 @@
 package org.example.entities;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Fornecedor {
@@ -11,11 +15,14 @@ public class Fornecedor {
     @Column(name = "ID", nullable = false)//nome no banco de dados.
     private Long idFornecedor; // nome no java.
 
+    @OneToMany(mappedBy = "conFornecedor", cascade = CascadeType.ALL)
+    private List<Contato> contatos = new ArrayList<>();
+
     @Column(name = "RAZAO_SOCIAL")
-    private String razaoSocial;
+    private String razaoSocial;// Nome juridico.
 
     @Column(name = "NOME_FANTASIA")
-    private String nomeFantasia;
+    private String nomeFantasia;// Nome social.
 
     @Column(name = "CNPJ")
     private String cnpj;
@@ -40,6 +47,14 @@ public class Fornecedor {
 
     public void setIdFornecedor(Long idFornecedor) {
         this.idFornecedor = idFornecedor;
+    }
+
+    public List<Contato> getContatos() {
+        return contatos;
+    }
+
+    public void setContatos(List<Contato> contatos) {
+        this.contatos = contatos;
     }
 
     public String getRazaoSocial() {

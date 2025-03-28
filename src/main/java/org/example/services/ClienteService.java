@@ -1,9 +1,8 @@
 package org.example.services;
 
-import org.example.entities.Cliente;
-import org.example.entities.Contato;
-import org.example.entities.Endereco;
-import org.example.entities.Produto;
+import org.example.dto.ClienteDTO;
+import org.example.dto.FornecedorDTO;
+import org.example.entities.*;
 import org.example.repositories.ClienteRepository;
 import org.example.services.exeptions.ObjectNotFoundException;
 import org.example.services.exeptions.ResourceNotFoundException;
@@ -16,13 +15,15 @@ import java.util.Optional;
 @Service
 public class ClienteService {
 
+
+
     @Autowired
     private ClienteRepository repository;
 
     @Autowired
     private EnderecoService enderecoService;
 
-    public List<Cliente> findAll(){
+    public List<Cliente> findAll() {
 
         return repository.findAll();
     }
@@ -36,12 +37,9 @@ public class ClienteService {
 
     }
 
-    public Cliente insert(Cliente obj) {
+    public Cliente insert(Cliente cliente) {
 
-        obj.setIdCliente(null);
-        obj.setEndereco(enderecoService.findById(obj.getEndereco().getIdEndereco()));
-        obj = repository.save(obj);
-        return obj;
+        return repository.save(cliente);
 
     }
 
@@ -50,20 +48,50 @@ public class ClienteService {
         repository.deleteById(id);
     }
 
-    public boolean update(Long id, Cliente cliente){
+    public Cliente update(Long id, ClienteDTO objDto) {
 
-        Optional<Cliente> optional = repository.findById(id);
-        if (optional.isPresent()){
+        try {
 
-            Cliente cliente1 = optional.get();
-            cliente1.setNome(cliente.getNome());
-            cliente1.setCpfCliente(cliente.getCpfCliente());
-            cliente1.setDataNascimento(cliente.getDataNascimento());
-            cliente1.setStatusCliente(cliente.getStatusCliente());
-            repository.save(cliente1);
-            return true;
+            //======================================================//
+
+            Cliente entity = findById(id);
+
+            entity.setNome(objDto.getNome());
+            entity.setCpfCliente(objDto.getCpfCliente());
+            entity.setDataNascimento(objDto.getDataNascimento());
+            entity.setStatusCliente(objDto.getStatusCliente());
+
+            //=====================================================//
+
+            Contato contato = entity.getContato().get(0);
+
+            contato.setEmail(objDto.getEmail());
+            contato.setCelular(objDto.getCelular());
+            contato.setTelefone(objDto.getTelefone());
+
+            //=====================================================//
+
+            Endereco endereco = entity.getEndereco().get(0);
+
+            endereco.setLogradouro(objDto.getLogradouro());
+            endereco.setNumero(objDto.getNumero());
+            endereco.setComplemento(objDto.getComplemento());
+            endereco.setBairro(objDto.getBairro());
+            endereco.setCidade(objDto.getCidade());
+            endereco.setEstado(objDto.getEstado());
+            endereco.setCep(objDto.getCep());
+
+            //======================================================//
+
+            return repository.save(entity);
+
+        } catch (ObjectNotFoundException ex){
+
+
+            // Tratamento de erro quando a entidade não for encontrada
+            throw new ResourceNotFoundException("Cliente não encontrado com o id " + id);
+
         }
-        return  false;
     }
 
 }

@@ -2,6 +2,8 @@ package org.example.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Cliente implements Serializable {
@@ -24,10 +26,11 @@ public class Cliente implements Serializable {
     @Column(name = "STATUS", nullable = false)
     private String statusCliente;
 
-    @ManyToOne
-    @JoinColumn(name = "ENDERECO", nullable = false)
-    private Endereco endereco;
+    @OneToMany(mappedBy = "conCliente", cascade = CascadeType.ALL)
+    private List<Contato> contato = new ArrayList<>();
 
+    @OneToMany(mappedBy = "endCliente", cascade = CascadeType.ALL)
+    private List<Endereco> endereco = new ArrayList<>();
 
     public Cliente() {  }//Construtor vazio.
 
@@ -38,7 +41,6 @@ public class Cliente implements Serializable {
         this.cpfCliente = cpfCliente;
         this.dataNascimento = dataNascimento;
         this.statusCliente = statusCliente;
-        this.endereco = endereco;
     }
 
 
@@ -83,8 +85,19 @@ public class Cliente implements Serializable {
         this.statusCliente = statusCliente;
     }
 
-    public Endereco getEndereco() { return endereco; }
+    public List<Contato> getContato() {
+        return contato;
+    }
 
-    public void setEndereco(Endereco endereco) { this.endereco = endereco; }
+    public void setContato(List<Contato> contato) {
+        this.contato = contato;
+    }
 
+    public List<Endereco> getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(List<Endereco> endereco) {
+        this.endereco = endereco;
+    }
 }
